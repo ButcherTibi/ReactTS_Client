@@ -338,9 +338,9 @@ type CommentBoxProps = {
 }
 
 class CommentBox extends React.Component<CommentBoxProps> {
-  constructor(props: CommentBoxProps) {
-    super(props)
-  }
+  // constructor(props: CommentBoxProps) {
+  //   super(props)
+  // }
 
   render() {
     return (
