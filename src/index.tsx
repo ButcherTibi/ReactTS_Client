@@ -39,7 +39,7 @@ function serverFetch(relative_url: RequestInfo, data: any = null) {
   // heroku deploy
   else {
     server_url = "https://contenthostingserver.herokuapp.com:443/" + relative_url;
-    client_url = "https://5eeb62f825b3c30008aadd66--thirsty-booth-85e1e5.netlify.app/";
+    client_url = "https://thirsty-booth-85e1e5.netlify.app/";
   }
 
   let headers = new Headers();
