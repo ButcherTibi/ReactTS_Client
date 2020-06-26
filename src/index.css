@@ -30,7 +30,7 @@ p {
 button {
   outline-style: none;
   border-width: 0px;
-  background-color: var(--background_1_color);
+  background-color: hsla(0, 0%, 0%, 0%);
 }
 
 button:hover {
@@ -56,7 +56,7 @@ input:focus {
   padding: 4px 0px 4px;
   border-width: 0px;
 
-  background-color: var(--background_1_color);
+  background-color: hsla(0, 0%, 0%, 0%);
   color: var(--text_1_color);
   font-family: monospace;
   font-size: var(--text_size);
@@ -306,6 +306,8 @@ input:focus {
   right: 0px;
   z-index: 2;
   width: 200px;
+
+  background-color: var(--background_1_color);
   
   display: flex;
   flex-direction: column;
@@ -354,6 +356,12 @@ input:focus {
   padding: 0px 10px 0px;
 }
 
+.ThreadVertical > .ThreadContext .separator {
+  margin-bottom: 10px;
+  height: 2px;
+  background-color: var(--background_2_color);
+}
+
 .ThreadContent {
   display: flex;
   justify-content: center;
@@ -364,11 +372,11 @@ input:focus {
 }
 
 .ThreadContext > .title {
-  padding-top: 15px;
+  padding-top: 10px;
 
   color: var(--text_1_color);
   font-family: sans-serif;
-  font-size: 21px;
+  font-size: 18px;
 }
 
 .ThreadContext .content_stats {
@@ -378,20 +386,27 @@ input:focus {
 
   color: var(--text_2_color);
   font-family: monospace;
-  font-size: 17px;
+  font-size: 14px;
 
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
-.ThreadContext .views {
+.ThreadContext .ViewsDate {
   display: flex;
-  flex-direction: row;
 }
 
-.ThreadContext .views .num {
-  padding-right: 5px;
+.ThreadContext .ViewsDate > .num {
+  padding-right: 4px;
+}
+
+.ThreadContext .ViewsDate > .views {
+  padding-right: 8px;
+}
+
+.ThreadContext .ViewsDate > .dot {
+  padding-right: 8px;
 }
 
 .ContentDescription {
@@ -460,7 +475,7 @@ input:focus {
 }
 
 .ThreadSetbar .subscribe_btn_off {
-  background-color: var(--site_background_color);
+  background-color: hsla(0, 0%, 0%, 0%);
   color: var(--site_1_color);
 }
 
@@ -552,7 +567,7 @@ input:focus {
 
 .VerticalThreadCard:hover {
   border-radius: 10px;
-  background-color: var(--background_1_color);
+  background-color: hsla(0, 0%, 0%, 0%);
   cursor: pointer;
 }
 
@@ -584,7 +599,8 @@ input:focus {
 }
 
 .HorizontalThreadCard:hover {
-  border-radius: 10px;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
   background-color: var(--background_1_color);
 }
 
@@ -715,6 +731,33 @@ input:focus {
   color: var(--down_1_color);
 }
 
+.Comment .parents {
+  margin-top: 2px;
+  display: flex;
+}
+
+.Comment .parents a {
+  margin-right: 10px;
+  display: flex;
+
+  font-size: 13px;
+  font-weight: bold;
+  color: var(--text_2_color);
+  text-decoration: none;
+}
+
+.Comment .parents a:hover{
+  color: var(--text_1_color);
+}
+
+.Comment .parents .from_sign {
+  font-family: monospace;
+}
+
+.Comment .parents .from_name {
+  font-family: sans-serif;
+}
+
 .Comment .text {
   padding-top: 2px;
   padding-bottom: 2px;
@@ -733,7 +776,7 @@ input:focus {
   color: var(--text_2_color);
   font-family: monospace;
   font-size: 13px;
-  background-color: var(--site_background_color);
+  background-color: hsla(0, 0%, 0%, 0%);
 }
 
 .Comment .CommentBtns > .comment_btn:hover {
@@ -746,19 +789,26 @@ input:focus {
   color: var(--text_2_color);
   font-family: monospace;
   font-size: 13px;
-  background-color: var(--site_background_color);
+  background-color: hsla(0, 0%, 0%, 0%);
 }
 
 .Comment .report_btn:hover {
-  color: hsl(0, 100%, 65%);
+  color: hsla(0, 100%, 65%, 100%);
   background-color: var(--background_2_color);
 }
 
-.CommentBox {
+.CommentBoxWrap {
   position: fixed;
   bottom: 0px;
-  left: calc(50% - 300px);
 
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+}
+
+.CommentBox {
+  width: 620px;
   border-radius: 4px;
 
   background-color: var(--background_1_color);
@@ -769,12 +819,41 @@ input:focus {
   align-items: center;
 }
 
-.CommentBox .header {
+.CommentBox > .header {
   width: 100%;
 
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: space-between;
+}
+
+.CommentBox .parents {
+  margin-top: 5px;
+  margin-left: 8px;
+
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.CommentBox .parents a {
+  display: flex;
+
+  color: var(--text_1_color);
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.CommentBox .parents a:hover {
+  color: var(--site_1_color);
+}
+
+.CommentBox .parents a .from_sign {
+  font-family: monospace;
+}
+
+.CommentBox .parents a .from_name {
+  font-family: sans-serif;
+  margin-right: 8px;
 }
 
 .CommentBox > .header > .close_btn {
@@ -797,7 +876,7 @@ input:focus {
 #reply_textarea {
   box-sizing: border-box;
 
-  margin: 8px 8px 8px;
+  margin: 8px 0px 8px;
   border-radius: 4px;
   border-style: none;
   border-width: 0px;
