@@ -1,27 +1,5 @@
 
-body {
-  margin: 0;
-
-  --site_background_color: hsl(0, 0%, 0%);
-  background-color: var(--site_background_color);
-
-  /* New Variables */
-  --site_1_color: hsl(165, 100%, 40%);
-  --site_2_color: hsl(165, 100%, 30%);
-  --site_3_color: hsl(165, 50%, 20%);
-  --background_1_color: hsl(0, 0%, 15%);
-  --background_2_color: hsl(0, 0%, 25%);
-  --text_1_color: hsl(0, 0%, 100%);
-  --text_2_color: hsl(214, 0%, 65%);
-
-  --up_1_color: hsl(205, 100%, 50%);
-  --up_2_color: hsl(205, 40%, 50%);
-  --down_1_color: hsl(15, 100%, 50%);
-  --down_2_color: hsl(15, 40%, 50%);
-  --text_size: 16px;
-
-  --content-margins: 10px;
-}
+@import "./common.css";
 
 p {
   margin: 0px;
@@ -68,7 +46,7 @@ input:focus {
   background-color: var(--background_2_color);
 }
 
-/*=============================== Styling for New Components ===============================*/
+/*=============================== Styling for Components ===============================*/
 
 #background_click_receiver {
   position: fixed;
@@ -155,7 +133,7 @@ input:focus {
 
   background-color: var(--background_2_color);
   color: hsl(0, 0%, 100%);
-  font-family: sans-serif;
+  font-family: Verdana;
   font-size: 16px;
 }
 
@@ -193,7 +171,7 @@ input:focus {
   width: 100%;
   height: 50px;
 
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 
   display: flex;
   flex-direction: row;
@@ -253,7 +231,7 @@ input:focus {
 
   background-color: var(--background_2_color);
   color: hsl(215, 0%, 100%);
-  font-family: sans-serif;
+  font-family: Verdana;
   font-size: 14px;
 }
 
@@ -274,7 +252,7 @@ input:focus {
   border-radius: 4px;
 
   color: var(--text_1_color);
-  font-family: sans-serif;
+  font-family: Verdana;
   font-size: var(--text_size);
   white-space: nowrap;
 
@@ -367,6 +345,14 @@ input:focus {
   justify-content: center;
 }
 
+.thread_image {
+  max-width: 100%;
+}
+
+.thread_video {
+
+}
+
 .ThreadContent > img {
   max-width: 100%;
 }
@@ -375,7 +361,7 @@ input:focus {
   padding-top: 10px;
 
   color: var(--text_1_color);
-  font-family: sans-serif;
+  font-family: Verdana;
   font-size: 18px;
 }
 
@@ -439,7 +425,7 @@ input:focus {
 
 .ThreadSetbar .thread_set .name {
   color: var(--text_1_color);
-  font-family: sans-serif;
+  font-family: Verdana;
   font-size: 15px;
 }
 
@@ -481,7 +467,7 @@ input:focus {
 
 .ContentDescription .description {
   color: var(--text_1_color);
-  font-family: sans-serif;
+  font-family: Verdana;
   font-size: 14px;
 }
 
@@ -557,37 +543,6 @@ input:focus {
 }
 
 /* Thread Card Styling */
-.VerticalThreadCard {
-  width: 400px;
-  padding: var(--content-margins);
-
-  display: flex;
-  flex-direction: column;
-}
-
-.VerticalThreadCard:hover {
-  border-radius: 10px;
-  background-color: hsla(0, 0%, 0%, 0%);
-  cursor: pointer;
-}
-
-.VerticalThreadCard .image > img {
-  max-width: 100%;
-  max-height: 100%;
-}
-
-.VerticalThreadCard > .description {
-  display: flex;
-  margin-top: 5px;
-}
-
-.VerticalThreadCard > .description > .ThreadSetImage {
-  width: 50px;
-  height: 50px;
-  border-radius: 4px;
-  margin-right: 10px;
-}
-
 .HorizontalThreadCard {
   width: 100%;
   margin-bottom: 10px;
@@ -621,11 +576,16 @@ input:focus {
   width: calc(100% - var(--image_size));
 }
 
+.CardContext {
+  width: calc(100% - 60px);
+}
+
 .CardContext > .title {
+  max-height: calc(30px * 1.2);
   margin-bottom: 3px;
 
   color: var(--text_1_color);
-  font-family: Verdana; /* use more verdana for user */
+  font-family: Verdana;
   font-size: 15px;
 }
 
@@ -687,8 +647,8 @@ input:focus {
 
 .Comment .user_name {
   color: var(--text_1_color);
-  font-family: sans-serif;
-  font-weight: bold;
+  font-family: Verdana;
+  /* font-weight: bold; */
 }
 
 .Comment .date {
@@ -755,7 +715,7 @@ input:focus {
 }
 
 .Comment .parents .from_name {
-  font-family: sans-serif;
+  font-family: Verdana;
 }
 
 .Comment .text {
@@ -763,7 +723,7 @@ input:focus {
   padding-bottom: 2px;
 
   color: var(--text_1_color);
-  font-family: sans-serif;
+  font-family: Verdana;
   font-size: 14px;
 }
 
@@ -852,7 +812,7 @@ input:focus {
 }
 
 .CommentBox .parents a .from_name {
-  font-family: sans-serif;
+  font-family: Verdana;
   margin-right: 8px;
 }
 
@@ -886,7 +846,7 @@ input:focus {
   resize: none;
 
   background-color: var(--background_2_color);
-  font-family: sans-serif;
+  font-family: Verdana;
   font-size: 14px;
   color: var(--text_1_color);
 }

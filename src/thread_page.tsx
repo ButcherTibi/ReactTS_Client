@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import './index.css';
 
 // Mine
@@ -13,6 +12,7 @@ import {
   SplitNumber,
   SimplifiedDate,
   StyledViewsAndDate,
+  Media,
 } from "./common"
 
 
@@ -180,9 +180,10 @@ class CommentBox extends React.Component<CommentBoxProps> {
 }
 
 
-
 type RecomendationProps = {
+  // Data
   thread_id: string,
+  channel_id: string,
 
   thread_set_name: string,
 
@@ -191,11 +192,9 @@ type RecomendationProps = {
   views: number,
   date: Date,
 
-  // Visual
-  layout: string,
-
   // Functions
   switchTo: (thread_id: string) => void,
+  switchToChannel: (channel_id: string) => void,
 }
 
 class Recomendation extends React.Component<RecomendationProps> {
@@ -203,10 +202,16 @@ class Recomendation extends React.Component<RecomendationProps> {
     super(props)
 
     this.switchToThread = this.switchToThread.bind(this);
+    this.switchToChannel = this.switchToChannel.bind(this);
   }
 
   switchToThread() {
     this.props.switchTo(this.props.thread_id);
+  }
+
+  switchToChannel() {
+    console.log("recomendation")
+    this.props.switchToChannel(this.props.channel_id);
   }
 
   render() {
@@ -215,7 +220,7 @@ class Recomendation extends React.Component<RecomendationProps> {
         <div className="image">
           <img src={this.props.preview_img} alt="Thread Preview"></img>
         </div>
-        <div className="CardContext">
+        <div className="CardContext" onClick={this.switchToChannel}>
           <p className="title">{this.props.title}</p>
           <p className="thread_set">{this.props.thread_set_name}</p>
           <StyledViewsAndDate 
@@ -236,13 +241,15 @@ type ThreadProps = {
   // Functions
   showLogIn: () => void,
   switchToThread: (thread_id: string) => void,
+  switchToChannel: (channel_id: string) => void,
 }
 
 type ThreadState = {
   loaded: boolean,
 
   id: string,
-  img: string,
+  media: string,
+  media_mime_type: string,
   title: string,
   views: number,
   date: Date,
@@ -257,12 +264,14 @@ type ThreadState = {
   thread_set_subs: number,
   subscribed: boolean
 
+  channel_id: string,
+
   // Comments
   sort_mode: string;
   last_comment_render_key: number,
   comments_props: CommentProps[],
 
-  // Thread Cards
+  // Recomendations
   recomendations: RecomendationProps[],
 
   // Comment Box
@@ -286,7 +295,8 @@ class Thread extends React.Component<ThreadProps, ThreadState, {}> {
       loaded: false,
 
       id: "",
-      img: "",
+      media: "",
+      media_mime_type: "",
       title: "",
       views: 0,
       date: new Date(),
@@ -300,6 +310,8 @@ class Thread extends React.Component<ThreadProps, ThreadState, {}> {
       thread_set_name: "",
       thread_set_subs: 0,
       subscribed: false,
+
+      channel_id: "",
 
       sort_mode: "rating",
       last_comment_render_key: -1,
@@ -317,6 +329,7 @@ class Thread extends React.Component<ThreadProps, ThreadState, {}> {
 
     // Bindings
     this.setLayout = this.setLayout.bind(this);
+    this.switchToChannel = this.switchToChannel.bind(this);
     this.upvoteThread = this.upvoteThread.bind(this);
     this.downvoteThread = this.downvoteThread.bind(this);
     this.subscribeToThreadSet = this.subscribeToThreadSet.bind(this);
@@ -423,81 +436,66 @@ class Thread extends React.Component<ThreadProps, ThreadState, {}> {
     )
   }
 
+  loadRecomendations(thread_id: string) {
+    let req = {
+      thread_id: thread_id
+    }
+
+    serverFetch("getThreadRecomendations", req).then(
+      (res: any) => {
+        this.setState(prev => {
+          return {
+            recomendations: res.recomendations,
+          }
+        })
+      },
+      err => console.log(err)
+    )
+  }
+
   loadThread(thread_id: string) {
 
-    if (account_password !== "") {
+    let data = {
+      thread_id: thread_id,
+      name: account_name,
+      password: account_password
+    };
 
-      let data = {
-        thread_id: thread_id,
-        name: account_name,
-        password: account_password
-      };
+    serverFetch("getThread", data).then(
+      (res: any) => {
+        this.setState({
+          loaded: true,
 
-      serverFetch("getThreadLoggedIn", data).then(
-        (res: any) => {
-          this.setState({
-            loaded: true,
+          id: thread_id,
+          media: res.media,
+          media_mime_type: res.media_mime_type,
 
-            id: thread_id,
-            img: res.img,
-            title: res.title,
-            views: res.views,
-            date: res.date,
-            upvotes: res.up_votes,
-            downvotes: res.down_votes,
-            rating: res.rating,
-            descp: res.descp,
-            
-            thread_set_id: res.thread_set_id,
-            thread_set_img: res.thread_set_img,
-            thread_set_name: res.thread_set_name,
-            thread_set_subs: res.thread_set_subs,
-            subscribed: res.subscribed,
-            
-            recomendations: res.thread_cards,
-          });
-        },
-        err => console.log(err)
-      );
-    }
-    else {
-      let data = {
-        thread_id: thread_id
-      };
-  
-      serverFetch("getThread", data).then(
-        (res: any) => {
-          this.setState({
-            loaded: true,
-  
-            id: thread_id,
-            img: res.img,
-            title: res.title,
-            views: res.views,
-            date: res.date,
-            upvotes: res.up_votes,
-            downvotes: res.down_votes,
-            rating: 0,
-            descp: res.descp,
-            
-            thread_set_id: res.thread_set_id,
-            thread_set_img: res.thread_set_img,
-            thread_set_name: res.thread_set_name,
-            thread_set_subs: res.thread_set_subs,
-            subscribed: false,
-            
-            recomendations: res.thread_cards,
-          })
-        },
-        err => console.log(err)
-      );
-    }
+          title: res.title,
+          views: res.views,
+          date: res.date,
+          upvotes: res.up_votes,
+          downvotes: res.down_votes,
+          rating: res.rating,
+          descp: res.descp,
+          
+          thread_set_id: res.thread_set_id,
+          thread_set_img: res.thread_set_img,
+          thread_set_name: res.thread_set_name,
+          thread_set_subs: res.thread_set_subs,
+          subscribed: res.subscribed,
+
+          channel_id: res.channel_id,
+        })
+      },
+      err => console.log(err)
+    );
 
     this.loadComments(thread_id);
+    this.loadRecomendations(thread_id);
   }
 
   componentDidMount() {
-    window.onresize = this.setLayout;
+    window.addEventListener("resize", this.setLayout);
 
     this.loadThread(this.props.thread_id);
   }
@@ -506,6 +504,14 @@ class Thread extends React.Component<ThreadProps, ThreadState, {}> {
     if (this.props.thread_id !== prev_props.thread_id) {
       this.loadThread(this.props.thread_id);
     }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.setLayout);
+  }
+
+  switchToChannel() {
+    this.props.switchToChannel(this.state.channel_id)
   }
 
   upvoteThread() {
@@ -954,7 +960,7 @@ class Thread extends React.Component<ThreadProps, ThreadState, {}> {
           </div>
         </div>
         <div className="ContentDescription">
-          <img src={this.state.thread_set_img} alt="Thread Set"></img>
+          <img src={this.state.thread_set_img} alt="Thread Set" onClick={this.switchToChannel}></img>
           <div className="right_side">
             <div className="ThreadSetbar">
               <div className="thread_set">
@@ -976,17 +982,19 @@ class Thread extends React.Component<ThreadProps, ThreadState, {}> {
 
     let recomendations = (
       <div className="recomendations">
-        {this.state.recomendations.map(thread_card => {
-          return <Recomendation key={thread_card.thread_id}
-            thread_id={thread_card.thread_id}
-            preview_img={""}
-            title={thread_card.title}
-            thread_set_name={thread_card.thread_set_name}
-            views={thread_card.views}
-            date={new Date(thread_card.date)}
-            layout={"horizontal"}
+        {this.state.recomendations.map(recomendation => {
+          return <Recomendation key={recomendation.thread_id}
+            thread_id={recomendation.thread_id}
+            channel_id={recomendation.channel_id}
+
+            preview_img={recomendation.preview_img}
+            title={recomendation.title}
+            thread_set_name={recomendation.thread_set_name}
+            views={recomendation.views}
+            date={new Date(recomendation.date)}
 
             switchTo={this.props.switchToThread}
+            switchToChannel={this.props.switchToChannel}
           />
         })}
       </div>
@@ -1040,7 +1048,15 @@ class Thread extends React.Component<ThreadProps, ThreadState, {}> {
         <div className="ThreadHorizontal">
           <div className="left_side">
             <div className="ThreadContent">
-              <img src={this.state.img} alt="thread content"></img>
+              <Media
+                media={this.state.media}
+                mime_type={this.state.media_mime_type}
+                css_img_class="thread_img"
+                css_video_class="thread_video"
+                controls={true}
+                autoplay={true}
+                muted={false}
+              />
             </div>
             <div className="ThreadContext">
               {content_footer}
@@ -1058,7 +1074,15 @@ class Thread extends React.Component<ThreadProps, ThreadState, {}> {
       render_content = (
         <div className="ThreadVertical">
           <div className="ThreadContent">
-            <img src={this.state.img} alt="thread content"></img>
+            <Media
+              media={this.state.media}
+              mime_type={this.state.media_mime_type}
+              css_img_class="thread_img"
+              css_video_class="thread_video"
+              controls={true}
+              autoplay={true}
+              muted={false}
+            />
           </div>
           <div className="ThreadContext">
             {content_footer}

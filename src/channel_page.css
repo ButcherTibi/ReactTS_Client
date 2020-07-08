@@ -1,0 +1,139 @@
+
+@import "./common.css";
+
+
+.Channel {
+  margin: 0px 10px 0px;
+}
+
+.banner {
+  position: relative;
+}
+
+.banner > .banner_img {
+  width: 100%;
+  max-height: 250px;
+  object-fit: cover;
+
+  display: flex;
+}
+
+.banner > .header {
+  position: absolute;
+  bottom: 15px;
+
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+}
+
+.header > .channel_img_icon {
+  width: 40px;
+  height: 40px;
+
+  border-radius: 4px;
+  margin-left: 15px;
+  margin-right: 10px;
+}
+
+.header > .right {
+  width: calc(100% - 40px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header .channel_name {
+  color: var(--text_1_color);
+  font-family: Verdana;
+  font-size: 25px;
+}
+
+.header .subs {
+  margin-right: 15px;
+
+  display: flex;
+
+  color: var(--text_1_color);
+  font-family: monospace;
+  font-size: 15px;
+}
+
+.subs > .subs_num {
+  margin-right: 8px;
+}
+
+/* .tabs {
+
+} */
+
+.tabs > button {
+  width: 80px;
+  height: 35px;
+  margin-bottom: 3px;
+
+  color: var(--text_2_color);
+  background-color: hsla(0, 0%, 0%, 0%);
+  font-family: monospace;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.tabs > button:hover {
+  color: var(--text_1_color);
+}
+
+.tabs .selected_tab {
+  color: var(--text_1_color);
+  border-bottom: 3px solid hsl(0, 0%, 100%);
+  margin-bottom: 0px;
+}
+
+.RecentThread {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  height: 130px;
+
+  display: flex;
+}
+
+.RecentThread .img {
+  max-height: 100%;
+}
+
+.RecentThread .description {
+  padding-left: 10px;
+}
+
+.RecentThread .name {
+  color: var(--text_1_color);
+  font-family: Verdana;
+  font-size: 14px;
+}
+
+.RecentThread .views_and_date {
+  display: flex;
+
+  color: var(--text_2_color);
+  font-family: monospace;
+  font-size: 14px;
+}
+
+.RecentThread .views_and_date > .views {
+  padding-left: 4px;
+}
+
+.RecentThread .views_and_date > .dot {
+  padding: 0px 6px 0px;
+}
+
+.RecentThread .descp {
+  height: calc(14px * 1.2 * 3);
+  color: var(--text_2_color);
+  font-family: Verdana;
+  font-size: 14px;
+
+  overflow: hidden;
+}
+

@@ -1,5 +1,4 @@
 import React from 'react';
-import './index.css';
 
 
 export {
@@ -21,6 +20,7 @@ export {
   SplitNumber,
   SimplifiedDate,
   StyledViewsAndDate,
+  Media,
 }
 
 
@@ -158,4 +158,52 @@ function StyledViewsAndDate(props: { views: number; date: Date; css_class: strin
       <p>{SimplifiedDate(props.date)}</p>
     </div>
   );
+}
+
+
+type MediaProps = {
+  // Image
+  media: string,
+  mime_type: string,
+  css_img_class: string,
+
+  // Video
+  css_video_class: string,
+  controls: boolean,
+  autoplay: boolean,
+  muted: boolean,
+}
+
+class Media extends React.Component<MediaProps> {
+  constructor(props: MediaProps) {
+    super(props)
+  }
+
+  render() {
+    let content = null;
+    switch (this.props.mime_type) {
+      case "image/jpg": 
+      case "image/jpeg": 
+      case "image/png": {
+        content = (
+          <img className={this.props.css_img_class} src={this.props.media} alt="generic"></img>
+        )
+        break;
+      }
+
+      case "video/webm": {
+        content = (
+          <video className={this.props.css_video_class} src={this.props.media}
+            controls={this.props.controls}
+            autoPlay={this.props.autoplay}
+            muted={this.props.muted}></video>
+        )
+        break;
+      }
+
+      default: console.trace();
+    }
+
+    return content;
+  }
 }

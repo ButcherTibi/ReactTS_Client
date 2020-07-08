@@ -1,0 +1,84 @@
+
+@import "./common.css";
+
+
+.Recomendation {
+  --recom_width: 250px;
+
+  width: var(--recom_width);
+  height: 250px;
+  padding: 7px;
+
+  display: flex;
+  flex-direction: column; 
+}
+
+.Recomendation:hover {
+  border-radius: 10px;
+  background-color: var(--background_1_color);
+}
+
+.Recomendation > .image {
+  cursor: pointer;
+}
+
+.Recomendation > .image > img {
+  width: 100%;
+  height: 150px;
+  object-fit: contain;
+}
+
+.Recomendation > .footer {
+  display: flex;
+  margin-top: 5px;
+}
+
+.Recomendation > .footer > .ThreadSetImage {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  margin-right: 10px;
+
+  cursor: pointer;
+}
+
+.Context {
+  width: calc(100% - 60px);
+}
+
+.Context > .title {
+  max-height: calc(15px * 2 * 1.2);
+  margin-bottom: 3px;
+
+  color: var(--text_1_color);
+  font-family: sans-serif;
+  font-size: 15px;
+  overflow: hidden;
+}
+
+.Context > .thread_set {
+  max-height: calc(14px * 2 * 1.2);
+
+  color: var(--text_2_color);
+  font-family: monospace;
+  font-size: 14px;
+  overflow: hidden;
+}
+
+.Context > .stats {
+  display: flex;
+
+  color: var(--text_2_color);
+  font-family: monospace;
+  font-size: 14px;
+  overflow: hidden;
+}
+
+.Context > .stats .views {
+  padding-left: 3px;
+}
+
+.Context > .stats .dot {
+  padding: 0px 6px 0px;
+  font-weight: bold;
+}

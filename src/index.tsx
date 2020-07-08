@@ -17,69 +17,20 @@ import {
   clearGlobalAccountImage,
 
   serverFetch,
-  
-  // ThreadCardProps,
-  // ThreadCard,
 } from "./common"
+
+import {
+   HomeThreads
+} from "./home_page"
 
 import {
   Thread
 } from "./thread_page"
 
-// type HomeThreadsProps = {
-//   switchToThread: (thread_id: string) => void
-// }
+import {
+  Channel
+} from "./channel_page"
 
-// type HomeThreadsState = {
-//   thread_cards: ThreadCardProps[],
-// }
-
-// class HomeThreads extends React.Component<HomeThreadsProps, HomeThreadsState, {}> {
-//   constructor(props: HomeThreadsProps) {
-//     super(props)
-//     this.state = {
-//       thread_cards: [],
-//     }
-//   }
-
-//   loadThreadCards() {
-//     serverFetch("getHomeThreadCards").then(
-//       (res: any) => {
-//         this.setState({
-//           thread_cards: res.thread_cards
-//         })
-//       },
-//       (err: string) => {
-//         console.log(err);
-//       }
-//     )
-//   }
-
-//   componentDidMount() {
-//     this.loadThreadCards();
-//   }
-
-//   render() {
-//     return (
-//       <div className="HomeThreads">
-//         {this.state.thread_cards.map((thread_card) => {
-//           return <ThreadCard key={thread_card.thread_id}
-//             thread_id={thread_card.thread_id}
-//             preview_img={thread_card.preview_img}
-//             thread_set_img={thread_card.thread_set_img}
-//             title={thread_card.title}
-//             thread_set_name={thread_card.thread_set_name}
-//             views={thread_card.views}
-//             date={new Date(thread_card.date)}
-//             layout="vertical"
-
-//             switchTo={this.props.switchToThread}
-//           />
-//         })}
-//       </div>
-//     );
-//   }
-// }
 
 type MainMenuState = {
   // Overlays
@@ -95,6 +46,7 @@ type MainMenuState = {
   // Site Content
   content_mode: string,
   thread_id: string,
+  channel_id: string,
 }
 
 class MainMenu extends React.Component<{}, MainMenuState, {}> {
@@ -112,8 +64,9 @@ class MainMenu extends React.Component<{}, MainMenuState, {}> {
       disable_login_btn: true,
 
       // Site Content
-      content_mode: "",
+      content_mode: "preset",
       thread_id: "",
+      channel_id: "",
     }
 
     this.toggleContentBar = this.toggleContentBar.bind(this);
@@ -125,8 +78,10 @@ class MainMenu extends React.Component<{}, MainMenuState, {}> {
     this.logIn = this.logIn.bind(this);
     this.logOut = this.logOut.bind(this);
 
+    // Content
     this.switchToHome= this.switchToHome.bind(this);
     this.switchToThread = this.switchToThread.bind(this);
+    this.switchToChannel = this.switchToChannel.bind(this);
   }
 
   componentDidMount() {
@@ -143,8 +98,8 @@ class MainMenu extends React.Component<{}, MainMenuState, {}> {
 
       if (req.name === null || req.password === null) {
 
-        // DEVELOPMENT_ONLY
-        this.switchToThread("5eeb0d06f566180640067b0b");
+        // DEVELOPMENT ONLY
+        this.switchToChannel("5f0452c62d8e282490661d6a");
         return;
       }
     }
@@ -156,8 +111,8 @@ class MainMenu extends React.Component<{}, MainMenuState, {}> {
           setGlobalAccountPassword(req.password!);
           setGlobalAccountImage(res.account_icon_img!);
 
-          // DEVELOPMENT_ONLY
-          this.switchToThread("5eeb0d06f566180640067b0b");
+          // DEVELOPMENT ONLY
+          this.switchToChannel("5f0452c62d8e282490661d6a");
       },
       err => {
         console.log(err);
@@ -282,6 +237,13 @@ class MainMenu extends React.Component<{}, MainMenuState, {}> {
       thread_id: thread_id,
     })
   }
+
+  switchToChannel(channel_id: string) {
+    this.setState({
+      content_mode: "channel",
+      channel_id: channel_id,
+    })
+  }
   
   render() {
     let content_bar_left = "-252px";
@@ -334,12 +296,13 @@ class MainMenu extends React.Component<{}, MainMenuState, {}> {
     let site_content = null;
     switch (this.state.content_mode) {
       case "home": {
-        // site_content = (
-        //   // <HomeThreads
-        //   //   // Functions
-        //   //   switchToThread={this.switchToThread}
-        //   // />
-        // );
+        site_content = (
+          <HomeThreads
+            // Functions
+            switchToThread={this.switchToThread}
+            switchToChannel={this.switchToChannel}
+          />
+        );
         break;
       }
       case "thread": {
@@ -350,11 +313,23 @@ class MainMenu extends React.Component<{}, MainMenuState, {}> {
             // Functions
             showLogIn={this.showLogIn}
             switchToThread={this.switchToThread}
+            switchToChannel={this.switchToChannel}
           />
         );
         break;
       }
-      default: 
+      case "channel": {
+        site_content = (
+          <Channel
+            channel_id={this.state.channel_id}
+          />
+        );
+        break;
+      }
+      case "preset":
+        break;
+
+      default: console.trace();
     }
 
     return (

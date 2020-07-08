@@ -1,0 +1,30 @@
+
+body {
+  margin: 0;
+
+  --site_background_color: hsl(0, 0%, 0%);
+  background-color: var(--site_background_color);
+
+  /* New Variables */
+  --site_1_color: hsl(165, 100%, 40%);
+  --site_2_color: hsl(165, 100%, 30%);
+  --site_3_color: hsl(165, 50%, 20%);
+  --background_1_color: hsl(0, 0%, 15%);
+  --background_2_color: hsl(0, 0%, 25%);
+  --text_1_color: hsl(0, 0%, 100%);
+  --text_2_color: hsl(214, 0%, 65%);
+
+  --up_1_color: hsl(205, 100%, 50%);
+  --up_2_color: hsl(205, 40%, 50%);
+  --down_1_color: hsl(15, 100%, 50%);
+  --down_2_color: hsl(15, 40%, 50%);
+  --text_size: 16px;  /* remove */
+
+  --content-margins: 10px;  /* remove */
+}
+
+* {
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+}

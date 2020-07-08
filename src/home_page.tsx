@@ -1,14 +1,22 @@
 
 import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import './home_page.css';
 
 import {
+  serverFetch,
+
   StyledViewsAndDate
 } from "./common"
 
+
+export {
+  HomeThreads,
+}
+
+
 type RecomendationProps = {
   thread_id: string,
+  channel_id: string,
 
   thread_set_name: string,
   thread_set_img: string,
@@ -18,11 +26,9 @@ type RecomendationProps = {
   views: number,
   date: Date,
 
-  // Visual
-  layout: string,
-
   // Functions
   switchTo: (thread_id: string) => void,
+  switchToChannel: (channel_id: string) => void,
 }
 
 class Recomendation extends React.Component<RecomendationProps> {
@@ -30,50 +36,96 @@ class Recomendation extends React.Component<RecomendationProps> {
     super(props)
 
     this.switchToThread = this.switchToThread.bind(this);
+    this.switchToChannel = this.switchToChannel.bind(this);
   }
 
   switchToThread() {
     this.props.switchTo(this.props.thread_id);
   }
 
+  switchToChannel() {
+    this.props.switchToChannel(this.props.channel_id);
+  }
+
   render() {
-    let card_context = (
-      <div className="CardContext">
-        <p className="title">{this.props.title}</p>
-        <p className="thread_set">{this.props.thread_set_name}</p>
-        <StyledViewsAndDate 
-          views={this.props.views}
-          date={this.props.date}
-          css_class={"stats"}
-        />
+    return (
+      <div className="Recomendation">
+        <div className="image" onClick={this.switchToThread}>
+          <img src={this.props.preview_img} alt="Thread Preview"></img>
+        </div>
+        <div className="footer">
+          <img className="ThreadSetImage" src={this.props.thread_set_img} alt="Thread Set"
+            onClick={this.switchToChannel}>
+          </img>
+          <div className="Context">
+            <p className="title">{this.props.title}</p>
+            <p className="thread_set">{this.props.thread_set_name}</p>
+            <StyledViewsAndDate 
+              views={this.props.views}
+              date={this.props.date}
+              css_class={"stats"}
+            />
+          </div>
+        </div>
       </div>
     );
+  }
+}
 
-    let render_content = null;
-    if (this.props.layout === "vertical") {
-      render_content = (
-        <div className="VerticalThreadCard" onClick={this.switchToThread}>
-          <div className="image">
-            <img src={this.props.preview_img} alt="Thread Preview"></img>
-          </div>
-          <div className="description">
-            <img className="ThreadSetImage" src={this.props.thread_set_img} alt="Thread Set"></img>
-            {card_context}
-          </div>
-        </div>
-      );
-    }
-    else {
-      render_content = (
-        <div className="HorizontalThreadCard" onClick={this.switchToThread}>
-          <div className="image">
-            <img src={this.props.preview_img} alt="Thread Preview"></img>
-          </div>
-          {card_context}
-        </div>
-      );
-    }
+type HomeThreadsProps = {
+  switchToThread: (thread_id: string) => void,
+  switchToChannel: (channel_id: string) => void,
+}
 
-    return render_content;
+type HomeThreadsState = {
+  recomendations: RecomendationProps[],
+}
+
+class HomeThreads extends React.Component<HomeThreadsProps, HomeThreadsState, {}> {
+  constructor(props: HomeThreadsProps) {
+    super(props)
+    this.state = {
+      recomendations: [],
+    }
+  }
+
+  loadThreadCards() {
+    serverFetch("getHome").then(
+      (res: any) => {
+        this.setState({
+          recomendations: res.thread_cards
+        })
+      },
+      (err: string) => {
+        console.log(err);
+      }
+    )
+  }
+
+  componentDidMount() {
+    this.loadThreadCards();
+  }
+
+  render() {
+    return (
+      <div className="HomeThreads">
+        {this.state.recomendations.map((recomendation) => {
+          return <Recomendation key={recomendation.thread_id}
+            thread_id={recomendation.thread_id}
+            channel_id={recomendation.channel_id}
+
+            preview_img={recomendation.preview_img}
+            thread_set_img={recomendation.thread_set_img}
+            title={recomendation.title}
+            thread_set_name={recomendation.thread_set_name}
+            views={recomendation.views}
+            date={new Date(recomendation.date)}
+
+            switchTo={this.props.switchToThread}
+            switchToChannel={this.props.switchToChannel}
+          />
+        })}
+      </div>
+    );
   }
 }
