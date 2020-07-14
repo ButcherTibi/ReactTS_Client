@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MouseEvent, HtmlHTMLAttributes } from 'react';
 import './index.css';
 
 // Mine
@@ -6,6 +6,8 @@ import {
   account_name,
   account_password,
   account_icon_img,
+  reply_box_pos,
+  setGlobalReplyBoxPosition,
 
   serverFetch,
   SimplifyNumber,
@@ -92,6 +94,9 @@ class Comment extends React.Component<CommentProps> {
       parents = (
         <div className="parents">
           {this.props.parents.map((parent, idx) => {
+            if (parent.id === "000000000000000000000000") {
+              return null;
+            }
             return (
               <a href={"#" + parent.id} key={parent.id}>
                 <p className="from_sign">{">>"}</p>
@@ -132,9 +137,9 @@ class Comment extends React.Component<CommentProps> {
           <div className="text">
             <p>{this.props.text}</p>
           </div>
-          <div className="CommentBtns">
-            <button className="reply_btn comment_btn" onClick={this.toggleReplyTarget}>reply</button>
-            <button className="report_btn">report</button>
+          <div className="footer">
+            <button className="comment_btn reply_btn" onClick={this.toggleReplyTarget}>reply</button>
+            <button className="comment_btn report_btn">report</button>
           </div>
         </div>
       </div>
@@ -143,7 +148,7 @@ class Comment extends React.Component<CommentProps> {
 }
 
 
-type CommentBoxProps = {
+type ReplyBoxProps = {
   parents: CommentReplyTarget[],
 
   // Functions
@@ -151,28 +156,83 @@ type CommentBoxProps = {
   replyToComments: () => void,
 }
 
-class CommentBox extends React.Component<CommentBoxProps> {
+class ReplyBox extends React.Component<ReplyBoxProps> {
+
+  start_delta_x: number = 0;
+  start_delta_y: number = 0;
+  
+  constructor(props: ReplyBoxProps) {
+    super(props)
+
+    this.beginDrag = this.beginDrag.bind(this);
+    this.dragReplyBox = this.dragReplyBox.bind(this);
+    this.endDrag = this.endDrag.bind(this);
+    this.noPassThru = this.noPassThru.bind(this);
+  }
+
+  componentDidMount() {
+    let elem = document.getElementById("ReplyBox") as HTMLElement;
+    elem.style.left = reply_box_pos.x;
+    elem.style.top = reply_box_pos.y;
+  }
+
+  beginDrag(ev: MouseEvent) {
+    let elem = document.getElementById("ReplyBox") as HTMLElement;
+    this.start_delta_x = ev.clientX - elem.offsetLeft;
+    this.start_delta_y = ev.clientY - elem.offsetTop;
+
+    document.addEventListener("mousemove", this.dragReplyBox);
+  }
+
+  dragReplyBox(ev: globalThis.MouseEvent) {
+    let elem = document.getElementById("ReplyBox") as HTMLElement;
+    let pos_x = (ev.clientX - this.start_delta_x).toString() + "px";
+    let pos_y = (ev.clientY - this.start_delta_y).toString() + "px";
+    elem.style.left = pos_x;
+    elem.style.top = pos_y;
+  }
+
+  endDrag() {
+    let elem = document.getElementById("ReplyBox") as HTMLElement;
+    document.removeEventListener("mousemove", this.dragReplyBox);
+
+    setGlobalReplyBoxPosition(elem.style.left, elem.style.top)
+  }
+
+  noPassThru(ev: MouseEvent) {
+    ev.stopPropagation();
+  }
+
   render() {
     return (
-      <div className="CommentBoxWrap">
-        <div className="CommentBox">
-          <div className="header">
-            <div className="parents">
-              {this.props.parents.map(parent => {
-                return (
-                  <a href={"#" + parent.id} key={parent.id}>
-                    <p className="from_sign">{">>"}</p>
-                    <p className="from_name">{parent.name}</p>
-                  </a>
-                )
-              })}
-            </div>
-            <button className="close_btn" onClick={this.props.endReplying}>Close</button>
+      <div className="CommentBox" id="ReplyBox" 
+        onMouseDown={this.beginDrag} onMouseUp={this.endDrag}>
+        <div className="header">
+          <div className="parents" onMouseDown={this.noPassThru}>
+            {this.props.parents.map(parent => {
+              return (
+                <a href={"#" + parent.id} key={parent.id}>
+                  <p className="from_sign">{">>"}</p>
+                  <p className="from_name">{parent.name}</p>
+                </a>
+              )
+            })}
           </div>
-          <textarea id="reply_textarea" placeholder="Reply here . . ."></textarea>
-          <div className="footer">
-            <button className="reply_btn" onClick={this.props.replyToComments}>Reply</button>
-          </div>
+          <button className="close_btn" onClick={this.props.endReplying}
+            onMouseDown={this.noPassThru}>
+            Close
+          </button>
+        </div>
+        <div className="textarea_wrap">
+          <textarea id="reply_textarea" placeholder="Reply here . . ."
+            onMouseDown={this.noPassThru}>
+          </textarea>
+        </div>
+        <div className="footer">
+          <button className="reply_btn" onClick={this.props.replyToComments}
+            onMouseDown={this.noPassThru}>
+            Reply
+          </button>
         </div>
       </div>
     );
@@ -210,19 +270,20 @@ class Recomendation extends React.Component<RecomendationProps> {
   }
 
   switchToChannel() {
-    console.log("recomendation")
     this.props.switchToChannel(this.props.channel_id);
   }
 
   render() {
     return (
-      <div className="HorizontalThreadCard" onClick={this.switchToThread}>
-        <div className="image">
+      <div className="HorizontalThreadCard">
+        <div className="image" onClick={this.switchToThread}>
           <img src={this.props.preview_img} alt="Thread Preview"></img>
         </div>
-        <div className="CardContext" onClick={this.switchToChannel}>
+        <div className="CardContext"  onClick={this.switchToChannel}>
           <p className="title">{this.props.title}</p>
-          <p className="thread_set">{this.props.thread_set_name}</p>
+          <p className="thread_set">
+            {this.props.thread_set_name}
+          </p>
           <StyledViewsAndDate 
             views={this.props.views}
             date={this.props.date}
@@ -960,7 +1021,7 @@ class Thread extends React.Component<ThreadProps, ThreadState, {}> {
           </div>
         </div>
         <div className="ContentDescription">
-          <img src={this.state.thread_set_img} alt="Thread Set" onClick={this.switchToChannel}></img>
+          <img className="thread_set_img" src={this.state.thread_set_img} alt="Thread Set" onClick={this.switchToChannel}></img>
           <div className="right_side">
             <div className="ThreadSetbar">
               <div className="thread_set">
@@ -1033,7 +1094,7 @@ class Thread extends React.Component<ThreadProps, ThreadState, {}> {
     let comment_box = null;
     if (this.state.show_comment_box) {
       comment_box = (
-        <CommentBox
+        <ReplyBox
           parents={this.state.reply_targets}
 
           endReplying={this.endReplying}
@@ -1055,7 +1116,8 @@ class Thread extends React.Component<ThreadProps, ThreadState, {}> {
                 css_video_class="thread_video"
                 controls={true}
                 autoplay={true}
-                muted={false}
+                loop={false}
+                muted={true}  // change back
               />
             </div>
             <div className="ThreadContext">
@@ -1081,7 +1143,8 @@ class Thread extends React.Component<ThreadProps, ThreadState, {}> {
               css_video_class="thread_video"
               controls={true}
               autoplay={true}
-              muted={false}
+              loop={false}
+              muted={true}  // change back
             />
           </div>
           <div className="ThreadContext">

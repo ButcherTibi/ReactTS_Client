@@ -6,11 +6,11 @@
   margin: 0px 10px 0px;
 }
 
-.banner {
+.Channel > .Banner {
   position: relative;
 }
 
-.banner > .banner_img {
+.Banner > .banner_img {
   width: 100%;
   max-height: 250px;
   object-fit: cover;
@@ -18,7 +18,7 @@
   display: flex;
 }
 
-.banner > .header {
+.Banner > .header {
   position: absolute;
   bottom: 15px;
 
@@ -28,7 +28,7 @@
   align-items: center;
 }
 
-.header > .channel_img_icon {
+.Banner > .header > .channel_img_icon {
   width: 40px;
   height: 40px;
 
@@ -37,20 +37,20 @@
   margin-right: 10px;
 }
 
-.header > .right {
+.Banner .header > .right {
   width: calc(100% - 40px);
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.header .channel_name {
+.Banner .header .channel_name {
   color: var(--text_1_color);
   font-family: Verdana;
   font-size: 25px;
 }
 
-.header .subs {
+.Banner .header .subs {
   margin-right: 15px;
 
   display: flex;
@@ -60,7 +60,7 @@
   font-size: 15px;
 }
 
-.subs > .subs_num {
+.Banner .subs > .subs_num {
   margin-right: 8px;
 }
 
@@ -71,7 +71,6 @@
 .tabs > button {
   width: 80px;
   height: 35px;
-  margin-bottom: 3px;
 
   color: var(--text_2_color);
   background-color: hsla(0, 0%, 0%, 0%);
@@ -87,9 +86,69 @@
 .tabs .selected_tab {
   color: var(--text_1_color);
   border-bottom: 3px solid hsl(0, 0%, 100%);
-  margin-bottom: 0px;
 }
 
+/* Preview Thread List */
+.PreviewThreads {
+  margin-bottom: 15px;
+
+  display: flex;
+  overflow-x: scroll;
+}
+
+.PreviewItem {
+  flex: 0 0 210px;
+  height: 190px;
+  margin: 0px 5px 0px;
+}
+
+.PreviewItem > .media_wrap {
+  width: 100%;
+
+  cursor: pointer;
+}
+
+.preview_img, .preview_vid {
+  width: 100%;
+  max-height: 120px;
+  object-fit: contain;
+}
+
+.PreviewItem .name {
+  max-height: calc(15px * 2 * 1.2);
+  margin-top: 1px;
+  margin-bottom: 3px;
+
+  color: var(--text_1_color);
+  font-family: var(--text_family_1);
+  font-size: 15px;
+
+  overflow: hidden;
+}
+
+.PreviewItem .stats {
+  display: flex;
+  color: var(--text_1_color);
+}
+
+/* Styled Views and Date */
+.Channel .views_and_date {
+  display: flex;
+
+  color: var(--text_2_color);
+  font-family: monospace;
+  font-size: 14px;
+}
+
+.Channel .views_and_date > .views {
+  padding-left: 4px;
+}
+
+.Channel .views_and_date > .dot {
+  padding: 0px 6px 0px;
+}
+
+/* Recent Tab Styling */
 .RecentThread {
   padding-top: 10px;
   padding-bottom: 10px;
@@ -102,6 +161,11 @@
   max-height: 100%;
 }
 
+.RecentThread .vid {
+  max-height: 100%;
+  outline-style: none;
+}
+
 .RecentThread .description {
   padding-left: 10px;
 }
@@ -110,22 +174,6 @@
   color: var(--text_1_color);
   font-family: Verdana;
   font-size: 14px;
-}
-
-.RecentThread .views_and_date {
-  display: flex;
-
-  color: var(--text_2_color);
-  font-family: monospace;
-  font-size: 14px;
-}
-
-.RecentThread .views_and_date > .views {
-  padding-left: 4px;
-}
-
-.RecentThread .views_and_date > .dot {
-  padding: 0px 6px 0px;
 }
 
 .RecentThread .descp {
@@ -137,3 +185,66 @@
   overflow: hidden;
 }
 
+.RecentThreads {
+  padding-top: 10px;
+  border-top: 2px solid var(--background_2_color);
+}
+
+.RecentThreads > .name {
+  margin-bottom: 10px;
+
+  color: var(--text_1_color);
+  font-family: var(--text_family_2);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.PreviewThreadSet {
+  border-top: 2px solid var(--background_2_color);
+  padding-top: 15px;
+}
+
+.PreviewSetHeader {
+  margin-bottom: 10px;
+
+  display: flex;
+}
+
+.PreviewSetHeader .icon_img, .icon_vid {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  margin-right: 10px;
+
+  cursor: pointer;
+}
+
+.PreviewSetHeader .right {
+  width: calc(100% - 50px);
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.PreviewSetHeader .set .name {
+  color: var(--text_1_color);
+  font-family: var(--text_family_1);
+  font-size: 16px;
+}
+
+.PreviewSetHeader .set .subs {
+  display: flex;
+
+  color: var(--text_2_color);
+  font-family: var(--text_family_2);
+  font-size: 14px;
+}
+
+.PreviewSetHeader .set .subs .subs_num {
+  padding-right: 4px;
+}
+
+.PreviewSetHeader .subscribe_btn {
+  width: 100px;
+  height: 35px;
+} 

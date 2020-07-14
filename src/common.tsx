@@ -7,6 +7,7 @@ export {
   account_name,
   account_password,
   account_icon_img,
+  reply_box_pos,
 
   setGlobalAccountName,
   setGlobalAccountPassword,
@@ -14,6 +15,7 @@ export {
   clearGlobalAccountName,
   clearGlobalAccountPassword,
   clearGlobalAccountImage,
+  setGlobalReplyBoxPosition,
 
   serverFetch,
   SimplifyNumber,
@@ -31,6 +33,11 @@ var anon_account_img: string = require("./assets/anon_account.png");
 var account_name: string = "Anonimus";
 var account_password: string = "";
 var account_icon_img: string = anon_account_img;
+
+var reply_box_pos = {
+  x: "calc(50% - 310px)",
+  y: "calc(100% - 175px)",
+};
 
 function setGlobalAccountName(new_name: string) {
   account_name = new_name;
@@ -54,6 +61,11 @@ function clearGlobalAccountPassword() {
 
 function clearGlobalAccountImage() {
   account_icon_img = anon_account_img;
+}
+
+function setGlobalReplyBoxPosition(x: string, y: string ) {
+  reply_box_pos.x = x;
+  reply_box_pos.y = y;
 }
 
 
@@ -171,6 +183,7 @@ type MediaProps = {
   css_video_class: string,
   controls: boolean,
   autoplay: boolean,
+  loop: boolean,
   muted: boolean,
 }
 
@@ -196,6 +209,7 @@ class Media extends React.Component<MediaProps> {
           <video className={this.props.css_video_class} src={this.props.media}
             controls={this.props.controls}
             autoPlay={this.props.autoplay}
+            loop={this.props.loop}
             muted={this.props.muted}></video>
         )
         break;

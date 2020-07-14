@@ -1,4 +1,6 @@
 
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+
 body {
   margin: 0;
 
@@ -13,12 +15,13 @@ body {
   --background_2_color: hsl(0, 0%, 25%);
   --text_1_color: hsl(0, 0%, 100%);
   --text_2_color: hsl(214, 0%, 65%);
+  --text_family_1: Roboto;
+  --text_family_2: monospace;  /* maybe Roboto monospace */
 
   --up_1_color: hsl(205, 100%, 50%);
   --up_2_color: hsl(205, 40%, 50%);
   --down_1_color: hsl(15, 100%, 50%);
   --down_2_color: hsl(15, 40%, 50%);
-  --text_size: 16px;  /* remove */
 
   --content-margins: 10px;  /* remove */
 }
@@ -27,4 +30,27 @@ body {
   margin: 0px;
   padding: 0px;
   border: 0px;
+}
+
+.subscribe_btn {
+  border-radius: 4px;
+
+  font-family: var(--text_family_2);
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.subscribe_btn_on {
+  background-color: hsl(165, 50%, 20%);
+  color: hsl(165, 100%, 45%);
+}
+
+.subscribe_btn_on:hover {
+  background-color: hsl(165, 100%, 40%);
+  color: hsl(200, 100%, 100%);
+}
+
+.subscribe_btn_off {
+  background-color: hsla(0, 0%, 0%, 0%);
+  color: var(--site_1_color);
 }

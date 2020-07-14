@@ -99,7 +99,8 @@ class MainMenu extends React.Component<{}, MainMenuState, {}> {
       if (req.name === null || req.password === null) {
 
         // DEVELOPMENT ONLY
-        this.switchToChannel("5f0452c62d8e282490661d6a");
+        this.switchToChannel("5f0c4b5554c7f510c0ab4b3b");
+        // this.switchToThread("5f06ce7eba1e2b2dcc5bac9d");
         return;
       }
     }
@@ -112,7 +113,8 @@ class MainMenu extends React.Component<{}, MainMenuState, {}> {
           setGlobalAccountImage(res.account_icon_img!);
 
           // DEVELOPMENT ONLY
-          this.switchToChannel("5f0452c62d8e282490661d6a");
+          this.switchToChannel("5f0c4b5554c7f510c0ab4b3b");
+          // this.switchToThread("5f06ce7eba1e2b2dcc5bac9d");
       },
       err => {
         console.log(err);

@@ -36,8 +36,8 @@ input:focus {
 
   background-color: hsla(0, 0%, 0%, 0%);
   color: var(--text_1_color);
-  font-family: monospace;
-  font-size: var(--text_size);
+  font-family: var(--text_family_2);
+  font-size: 16px;
 }
 
 .Btn:hover {
@@ -87,7 +87,7 @@ input:focus {
 
   background-color: var(--background_1_color);
   color: hsl(0, 0%, 100%);
-  font-family: monospace;
+  font-family: var(--text_family_2);
 
   transition: top 250ms ease-in-out;
 
@@ -133,7 +133,7 @@ input:focus {
 
   background-color: var(--background_2_color);
   color: hsl(0, 0%, 100%);
-  font-family: Verdana;
+  font-family: var(--text_family_1);
   font-size: 16px;
 }
 
@@ -148,7 +148,7 @@ input:focus {
 
   background-color: var(--site_1_color);
   color: hsl(165, 0%, 100%);
-  font-family: monospace;
+  font-family: var(--text_family_2);
   font-size: 16px;
   font-weight: bold;
 }
@@ -211,7 +211,7 @@ input:focus {
   border-radius: 4px;
 
   color: hsl(165, 0%, 100%);
-  font-family: monospace;
+  font-family: var(--text_family_2);
   font-size: 16px;
   font-weight: bold;
 }
@@ -231,13 +231,13 @@ input:focus {
 
   background-color: var(--background_2_color);
   color: hsl(215, 0%, 100%);
-  font-family: Verdana;
+  font-family: var(--text_family_1);
   font-size: 14px;
 }
 
 ::placeholder {
   color: hsl(214, 0%, 75%);
-  font-family: monospace;
+  font-family: var(--text_family_2);
   font-size: 16px;
 }
 
@@ -252,8 +252,8 @@ input:focus {
   border-radius: 4px;
 
   color: var(--text_1_color);
-  font-family: Verdana;
-  font-size: var(--text_size);
+  font-family: var(--text_family_1);
+  font-size: 16px;
   white-space: nowrap;
 
   display: flex;
@@ -345,23 +345,20 @@ input:focus {
   justify-content: center;
 }
 
-.thread_image {
+.ThreadContent > .thread_img {
   max-width: 100%;
 }
 
-.thread_video {
-
-}
-
-.ThreadContent > img {
+.ThreadContent > .thread_video {
   max-width: 100%;
+  outline-style: none;
 }
 
 .ThreadContext > .title {
   padding-top: 10px;
 
   color: var(--text_1_color);
-  font-family: Verdana;
+  font-family: var(--text_family_1);
   font-size: 18px;
 }
 
@@ -371,7 +368,7 @@ input:focus {
   
 
   color: var(--text_2_color);
-  font-family: monospace;
+  font-family: var(--text_family_2);
   font-size: 14px;
 
   display: flex;
@@ -405,11 +402,13 @@ input:focus {
   display: flex;
 }
 
-.ContentDescription > img {
+.ContentDescription > .thread_set_img {
   width: 40px;
   height: 40px;
   border-radius: 4px;
   margin-right: 10px;
+
+  cursor: pointer;
 }
 
 .ThreadSetbar {
@@ -424,16 +423,19 @@ input:focus {
 }
 
 .ThreadSetbar .thread_set .name {
+  padding-bottom: 2px;
+
   color: var(--text_1_color);
-  font-family: Verdana;
-  font-size: 15px;
+  font-family: var(--text_family_1);
+  font-size: 14px;
 }
 
 .ThreadSetbar .thread_set .subs {
-  color: var(--text_2_color);
-  font-family: monospace;
-  font-size: 14px;
   display: flex;
+
+  color: var(--text_2_color);
+  font-family: var(--text_family_2);
+  font-size: 14px;
 }
 
 .ThreadSetbar .thread_set .subs .value {
@@ -443,31 +445,11 @@ input:focus {
 .ThreadSetbar .subscribe_btn {
   width: 100px;
   height: 35px;
-  border-radius: 4px;
-
-  font-family: monospace;
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.ThreadSetbar .subscribe_btn_on {
-  background-color: hsl(165, 50%, 20%);
-  color: hsl(165, 100%, 45%);
-}
-
-.ThreadSetbar .subscribe_btn_on:hover {
-  background-color: hsl(165, 100%, 40%);
-  color: hsl(200, 100%, 100%);
-}
-
-.ThreadSetbar .subscribe_btn_off {
-  background-color: hsla(0, 0%, 0%, 0%);
-  color: var(--site_1_color);
 }
 
 .ContentDescription .description {
   color: var(--text_1_color);
-  font-family: Verdana;
+  font-family: var(--text_family_1);
   font-size: 14px;
 }
 
@@ -548,8 +530,6 @@ input:focus {
   margin-bottom: 10px;
   display: flex;
 
-  cursor: pointer;
-
   --image_size: 200px;
 }
 
@@ -560,46 +540,51 @@ input:focus {
 }
 
 .HorizontalThreadCard > .image {
-  box-sizing: border-box;
-  width: var(--image_size);
-
   padding-right: 10px;
+  cursor: pointer;
 }
 
 .HorizontalThreadCard > .image > img {
-  max-width: 100%;
-  max-height: 100%;
+  width: var(--image_size);
+  height: 110px;
+
+  object-fit: contain;
 }
 
 .HorizontalThreadCard > .CardContext {
   box-sizing: border-box;
   width: calc(100% - var(--image_size));
-}
 
-.CardContext {
-  width: calc(100% - 60px);
+  cursor: pointer;
 }
 
 .CardContext > .title {
-  max-height: calc(30px * 1.2);
+  max-height: calc(15px * 2 * 1.2);
   margin-bottom: 3px;
 
+  overflow: hidden;
+
   color: var(--text_1_color);
-  font-family: Verdana;
+  font-family: var(--text_family_1);
   font-size: 15px;
 }
 
 .CardContext > .thread_set {
+  max-height: calc(14px * 2 * 1.2);
+  overflow: hidden;
+
   color: var(--text_2_color);
-  font-family: monospace;
+  font-family: var(--text_family_2);
   font-size: 14px;
+
+  cursor: pointer;
 }
 
 .CardContext > .stats {
   display: flex;
 
   color: var(--text_2_color);
-  font-family: monospace;
+  font-family: var(--text_family_2);
   font-size: 14px;
 }
 
@@ -623,7 +608,7 @@ input:focus {
   background-color: var(--background_2_color);
 }
 
-.Comment:hover .CommentBtns {
+.Comment:hover .footer {
   visibility: visible;
 }
 
@@ -640,6 +625,8 @@ input:focus {
 }
 
 .Comment .top_bar {
+  padding-bottom: 4px;
+
   display: flex;
   align-items: baseline;
   font-size: 13px;
@@ -647,8 +634,7 @@ input:focus {
 
 .Comment .user_name {
   color: var(--text_1_color);
-  font-family: Verdana;
-  /* font-weight: bold; */
+  font-family: var(--text_family_1);
 }
 
 .Comment .date {
@@ -657,7 +643,7 @@ input:focus {
 }
 
 .Comment .date, .upvotes_value, .upvotes_txt, .downvotes_value, .downvotes_txt {
-  font-family: monospace;
+  font-family: var(--text_family_2);
 }
 
 .Comment .up, .down {
@@ -692,8 +678,8 @@ input:focus {
 }
 
 .Comment .parents {
-  margin-top: 2px;
   display: flex;
+  padding-bottom: 2px;
 }
 
 .Comment .parents a {
@@ -711,64 +697,49 @@ input:focus {
 }
 
 .Comment .parents .from_sign {
-  font-family: monospace;
+  font-family: var(--text_family_2);
 }
 
 .Comment .parents .from_name {
-  font-family: Verdana;
+  font-family: var(--text_family_1);
 }
 
 .Comment .text {
-  padding-top: 2px;
   padding-bottom: 2px;
 
   color: var(--text_1_color);
-  font-family: Verdana;
+  font-family: var(--text_family_1);
   font-size: 14px;
 }
 
-.Comment .CommentBtns {
+.Comment .footer {
   visibility: hidden;
 }
 
-.Comment .CommentBtns .comment_btn {
+.Comment .footer .comment_btn {
+  width: 55px;
+  height: 16px;
   border-radius: 2px;
-  color: var(--text_2_color);
-  font-family: monospace;
-  font-size: 13px;
+
   background-color: hsla(0, 0%, 0%, 0%);
+  font-family: var(--text_family_2);
+  font-size: 13px;
 }
 
-.Comment .CommentBtns > .comment_btn:hover {
-  color: var(--text_1_color);
+.Comment .footer > .comment_btn:hover {
   background-color: var(--background_2_color);
+}
+
+.Comment .reply_btn {
+  color: var(--text_2_color);
 }
 
 .Comment .report_btn {
-  border-radius: 2px;
-  color: var(--text_2_color);
-  font-family: monospace;
-  font-size: 13px;
-  background-color: hsla(0, 0%, 0%, 0%);
-}
-
-.Comment .report_btn:hover {
   color: hsla(0, 100%, 65%, 100%);
-  background-color: var(--background_2_color);
-}
-
-.CommentBoxWrap {
-  position: fixed;
-  bottom: 0px;
-
-  width: 100%;
-
-  display: flex;
-  justify-content: center;
 }
 
 .CommentBox {
-  width: 620px;
+  position: fixed;
   border-radius: 4px;
 
   background-color: var(--background_1_color);
@@ -808,11 +779,11 @@ input:focus {
 }
 
 .CommentBox .parents a .from_sign {
-  font-family: monospace;
+  font-family: var(--text_family_2);
 }
 
 .CommentBox .parents a .from_name {
-  font-family: Verdana;
+  font-family: var(--text_family_1);
   margin-right: 8px;
 }
 
@@ -823,7 +794,7 @@ input:focus {
 
   background-color: hsl(0, 90%, 40%);
   color: hsl(0, 100%, 100%);
-  font-family: monospace;
+  font-family: var(--text_family_2);
   font-size: 14px;
   font-weight: bold;
 }
@@ -833,8 +804,15 @@ input:focus {
   color: hsl(0, 80%, 50%);
 }
 
+.CommentBox .textarea_wrap {
+  margin: 0px 10px 0px;
+}
+
 #reply_textarea {
   box-sizing: border-box;
+  height: 100px;
+  width: 600px;
+  resize: none;
 
   margin: 8px 0px 8px;
   border-radius: 4px;
@@ -842,17 +820,14 @@ input:focus {
   border-width: 0px;
   padding: 6px;
 
-  width: 600px;
-  resize: none;
-
   background-color: var(--background_2_color);
-  font-family: Verdana;
+  font-family: var(--text_family_1);
   font-size: 14px;
   color: var(--text_1_color);
 }
 
 #reply_textarea::placeholder {
-  font-family: monospace;
+  font-family: var(--text_family_2);
   font-size: 14px;
 }
 
@@ -878,7 +853,7 @@ input:focus {
   height: 25px;
 
   color: var(--site_1_color);
-  font-family: monospace;
+  font-family: var(--text_family_2);
   font-size: 14px;
   font-weight: bold;
 }

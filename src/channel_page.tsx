@@ -65,15 +65,16 @@ class PreviewThreads extends React.Component<PreviewThreadsProps> {
       <div className="PreviewThreads">
         {this.props.preview_threads.map(preview => {
           return (
-            <div className="item" key={preview.id}>
+            <div className="PreviewItem" key={preview.id}>
               <div className="media_wrap">
                 <GenericMedia
                   media={preview.preview}
                   mime_type={preview.preview_mime_type}
-                  css_img_class="img"
-                  css_video_class="video"
+                  css_img_class="preview_img"
+                  css_video_class="preview_vid"
                   controls={false}
                   autoplay={true}
+                  loop={true}
                   muted={true}
                 />
               </div>
@@ -81,7 +82,7 @@ class PreviewThreads extends React.Component<PreviewThreadsProps> {
               <StyledViewsAndDate
                 views={preview.views}
                 date={new Date(preview.date)}
-                css_class="stats"
+                css_class="views_and_date"
               />
             </div>
           )
@@ -98,6 +99,7 @@ class PreviewThreadSetProps {
   icon_media: string = "";
   icon_mime_type: string = "";
   name: string = "";
+  subs: number = 0;
   preview_threads: PreviewThreadProps[] = [];
 }
 
@@ -123,6 +125,7 @@ type ChannelState = {
 
   selected_tab: SelectedTabs,
 
+  // Recent
   recent_thread: PreviewThreadProps,
   recent_threads: PreviewThreadProps[],
   thread_sets: PreviewThreadSetProps[],
@@ -229,9 +232,10 @@ class Channel extends React.Component<ChannelProps, ChannelState> {
                 mime_type={this.state.recent_thread.preview_mime_type}
                 css_img_class="img"
                 css_video_class="vid"
-                controls={false}
+                controls={true}
                 autoplay={true}
-                muted={false}
+                loop={false}
+                muted={true}  // change back
               />
               <div className="description">
                 <p className="name">{this.state.recent_thread.name}</p>
@@ -244,10 +248,45 @@ class Channel extends React.Component<ChannelProps, ChannelState> {
               </div>
             </div>
             <div className="RecentThreads">
+              <p className="name">Latest</p>
               <PreviewThreads
                 preview_threads={this.state.recent_threads}
               />
             </div>
+            {this.state.thread_sets.map(thread_set => {
+
+              let subs_btn_class = "subscribe_btn subscribe_btn_on";
+
+              return (
+                <div className="PreviewThreadSet" key={thread_set.id}>
+                  <div className="PreviewSetHeader">
+                    <GenericMedia
+                      media={thread_set.icon_media}
+                      mime_type={thread_set.icon_mime_type}
+                      css_img_class="icon_img"
+                      css_video_class="icon_vid"
+                      controls={false}
+                      autoplay={true}
+                      loop={true}
+                      muted={true}
+                    />
+                    <div className="right">
+                      <div className="set">
+                        <p className="name">{thread_set.name}</p>
+                        <div className="subs">
+                          <p className="subs_num">{SplitNumber(thread_set.subs)}</p>
+                          <p className="subs_txt">subs</p>
+                        </div>
+                      </div>
+                      <button className={subs_btn_class}>Subscribe</button>
+                    </div>
+                  </div>
+                  <PreviewThreads
+                    preview_threads={thread_set.preview_threads}
+                  />
+                </div>
+              )
+            })}
           </div>
         )
         break;
@@ -257,7 +296,7 @@ class Channel extends React.Component<ChannelProps, ChannelState> {
 
     return (
       <div className="Channel">
-        <div className="banner">
+        <div className="Banner">
           <GenericMedia
             media={this.state.banner_media}
             mime_type={this.state.banner_mime_type}
@@ -265,6 +304,7 @@ class Channel extends React.Component<ChannelProps, ChannelState> {
             css_video_class="banner_video"
             controls={false}
             autoplay={true}
+            loop={true}
             muted={true}
           />
           <div className="header">
@@ -275,6 +315,7 @@ class Channel extends React.Component<ChannelProps, ChannelState> {
               css_video_class="channel_video_icon"
               controls={false}
               autoplay={true}
+              loop={true}
               muted={true}
             />
             <div className="right">
