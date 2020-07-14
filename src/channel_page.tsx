@@ -230,8 +230,8 @@ class Channel extends React.Component<ChannelProps, ChannelState> {
               <GenericMedia
                 media={this.state.recent_thread.preview}
                 mime_type={this.state.recent_thread.preview_mime_type}
-                css_img_class="img"
-                css_video_class="vid"
+                css_img_class="preview_img"
+                css_video_class="preview_vid"
                 controls={true}
                 autoplay={true}
                 loop={false}
@@ -301,7 +301,7 @@ class Channel extends React.Component<ChannelProps, ChannelState> {
             media={this.state.banner_media}
             mime_type={this.state.banner_mime_type}
             css_img_class="banner_img"
-            css_video_class="banner_video"
+            css_video_class="banner_vid"
             controls={false}
             autoplay={true}
             loop={true}
